@@ -1,0 +1,80 @@
+import org.springframework.boot.gradle.plugin.SpringBootPlugin
+
+buildscript {
+  repositories {
+    jcenter()
+    mavenCentral()
+    mavenLocal()
+  }
+
+  dependencies {
+    classpath 'org.springframework.boot:spring-boot-gradle-plugin:2.4.1'
+    classpath 'io.spring.gradle:dependency-management-plugin:1.0.10.RELEASE'
+  }
+}
+
+group = 'com.example'
+version = '0.0.1.SNAPSHOT'
+
+allprojects {
+  repositories {
+    jcenter()
+    mavenCentral()
+    mavenLocal()
+    maven {
+      url 'https://dl.bintray.com/justburrow/snapshot'
+    }
+    maven {
+      url 'https://dl.bintray.com/justburrow/release'
+    }
+  }
+}
+
+subprojects {
+  apply plugin: 'java'
+  apply plugin: 'java-library'
+  apply plugin: 'org.springframework.boot'
+  apply plugin: 'io.spring.dependency-management'
+
+  ext {
+    LUL_KR_COMMON_VERSION = '0.0.1.SNAPSHOT'
+    LUL_KR_SPRING_VERSION = '0.0.1.SNAPSHOT'
+  }
+
+  sourceCompatibility = JavaVersion.VERSION_11
+  targetCompatibility = JavaVersion.VERSION_11
+
+  dependencyManagement {
+    imports {
+      mavenBom SpringBootPlugin.BOM_COORDINATES
+    }
+
+    dependencies {
+      dependency 'commons-io:commons-io:2.8.0'
+      dependency "kr.lul.common:common-util:$LUL_KR_COMMON_VERSION"
+      dependency "kr.lul.common:common-data:$LUL_KR_COMMON_VERSION"
+      dependency "kr.lul.common:common-web:$LUL_KR_COMMON_VERSION"
+      dependency "kr.lul.support.spring:support-spring-common:$LUL_KR_SPRING_VERSION"
+      dependency "kr.lul.support.spring:support-spring-data-jpa:$LUL_KR_SPRING_VERSION"
+      dependency "kr.lul.support.spring:support-spring-mail:$LUL_KR_SPRING_VERSION"
+      dependency "kr.lul.support.spring:support-spring-security:$LUL_KR_SPRING_VERSION"
+      dependency "kr.lul.support.spring:support-spring-web:$LUL_KR_SPRING_VERSION"
+      dependency 'org.apache.commons:commons-lang3:3.11'
+      dependency 'org.assertj:assertj-core:3.18.1'
+      dependency 'org.spockframework:spock-spring:1.3-groovy-2.5'
+
+    }
+  }
+
+  dependencies {
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
+    runtimeOnly 'org.springframework.boot:spring-boot-devtools'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.spockframework:spock-spring'
+  }
+
+  jar.enabled = true
+  bootJar.enabled = false
+}
