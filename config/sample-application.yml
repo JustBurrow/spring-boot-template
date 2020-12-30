@@ -1,0 +1,25 @@
+spring:
+  datasource:
+    hikari:
+      jdbc-url: jdbc:mysql://local db URL
+      username: root
+      password: password
+  jpa:
+    show-sql: false
+  thymeleaf:
+    cache: false
+    prefix: file:/path/to/thymeleaf/template
+  messages:
+    cache-duration: 0
+  devtools:
+    restart:
+      enabled: true
+    livereload:
+      enabled: true
+
+logging:
+  pattern:
+    console: "%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%p) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%t - %X]){faint} %clr(%logger){cyan} %clr(:){faint} %m%n%wEx"
+  level:
+    root: info
+    kr.lul: info
